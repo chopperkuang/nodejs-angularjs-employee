@@ -5,7 +5,7 @@ var index = require('../app/server/controllers'),
 
 module.exports = function (app) {
 
-	app.route('/employee/:id').get(employee.load);
+	app.route('/employee/:id').get(employee.findOne);
 
 	app.route('/*').get(index.index);
 

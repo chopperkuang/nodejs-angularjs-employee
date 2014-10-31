@@ -12,8 +12,21 @@ var EmployeeSchema = new Schema({
         default: '',
         trim: true
     },
-	orgName: {},
-	position: {},
+	orgName: {
+        type: String,
+        default: '',
+        trim: true
+    },
+	position: {
+        type: String,
+        default: '',
+        trim: true
+    },
+    empState: {
+        type: String,
+        default: '',
+        trim: true
+    },
 	joinAt: {
 		type: Date,
         default: Date.now	
@@ -25,29 +38,16 @@ var EmployeeSchema = new Schema({
     status: {
     	type: Number,
     	trim: true,
-    	default: 1
+    	default: 0
     }	
 
 });    
 
 EmployeeSchema.statics = {
-	list: function(options, cb) {
-		
-		/**
-		var criteria = options.criteria || {};
-        this.find(criteria, '-body -html')
-            .populate('user', 'username empNo')
-            .populate('updater', 'username empNo')
-            .populate('comments.user', 'username empNo')
-            .sort({
-                'commentAt': -1,
-                'updatedAt': -1,
-                'createdAt': -1
-            })
-            .limit(options.perPage)
-            .skip(options.perPage * options.page)
-            .exec(cb);
-        */	
+	findByNo: function(empNo, cb) {
+        console.log("statics empNo => " + empNo);
+        this.find({ }, cb);
 	}
 };
+
 mongoose.model('Employee', EmployeeSchema);

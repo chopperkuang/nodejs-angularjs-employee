@@ -5,6 +5,6 @@ module.exports = {
   ip:   process.env.IP || '0.0.0.0',
   port: process.env.PORT || 2000,
   mongo: {
-    uri: 'mongodb://192.168.0.133:27017/dev-wiki'
+    uri: 'mongodb://192.168.0.133:27017/nodejs-employee'
   }
 };

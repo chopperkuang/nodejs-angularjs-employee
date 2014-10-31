@@ -4,12 +4,12 @@ var mongoose = require('mongoose'),
     Employee = mongoose.model('Employee');
 
 
-exports.load = function(req, res) {
+exports.findOne = function(req, res) {
 
     console.log("id=>" + req.params.id);
-    Employee.findOne({
-        _id: req.params.id
-    }, function(err, data) {
+    //console.log("Employee =>" + Employee);
+    Employee.findByNo(83639, function(err, data) {
+    	console.log(data);
         res.json(data);
     });
 };
