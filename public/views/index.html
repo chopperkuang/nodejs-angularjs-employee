@@ -24,70 +24,9 @@
 <script type="text/javascript" src="http://public.dui.dooioo.com/public/js/header.js"></script>
 <!--头部结束-->
 
-<div class="container" ng-controller="ListCtrl">
-    <h1 class="f18 mt_15">{{name}}</h1>
+<div class="container">
 
-    <!--搜索条件 begin -->
-    <div class="boxWrapBlue pd_10 mt_15 clearfix">
-        <table width="780" cellspacing="0" cellpadding="3" border="0" class="left">
-            <tr>
-                <td align="right" width="60">状态：</td>
-                <td width="100">
-                    <select ng-model="filter.empState" ng-options="es.key as es.value for es in constants.empStateList">
-                    </select>
-                </td>
-                <td width="60" align="right">入职日期：</td>
-                <td width="180">
-                    <input type="text" class="txtDate" value="" /> - <input type="text" class="txtDate" value="" />
-                </td>
-                <td align="right">关键字：</td>
-                <td>
-                    <input type="text" class="txtNew tt280" value="" placeholder="请输入工号或姓名"/>
-                </td>
-            </tr>
-        </table>
-        <div class="right center bdL_ccc" style="width:120px">
-            <a href="javascript:;" class="btn-small btn-blue in_block">搜索</a>
-        </div>
-    </div>
-    <!--搜索条件 end -->
-
-    <!--搜索结果 begin -->
-    <p class="clearfix mt_15">
-        <span class="left">共有 <b class="red">{{employeeList.totalCount}}</b> 条符合条件的结果</span>
-		<span class="right">
-			<a href="javascript:;" class="btn-small btn-green in_block ml_10" ng-click="create()">新增人员</a>
-		</span>
-    </p>
-
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tableListNew mt_5">
-        <tr class="trHead">
-            <td>工号</td>
-            <td>姓名</td>
-            <td>部门</td>
-            <td>岗位</td>
-            <td>入职日期</td>
-            <td>状态</td>
-            <td>操作</td>
-        </tr>
-        <tr ng-repeat="employee in employeeList.employeeList">
-            <td>{{employee.empNo}}</td>
-            <td><a href="detail.html">{{employee.userName}}</a></td>
-            <td>{{employee.orgName}}</td>
-            <td>{{employee.position}}</td>
-            <td>{{employee.joinAt | date:'yyyy-MM-dd' }}</td>
-            <td>{{employee.empState}}</td>
-            <td>
-                <a href="javascript:;" class="btn-small btn-silver in_block" ng-click="edit(employee.empNo)">编辑</a>
-                <a href="javascript:;" class="btn-small btn-red in_block" ng-click="delete(employee.empNo)">删除</a>
-            </td>
-        </tr>
-    </table>
-    <div class="pageNew txtRight mt_10">
-        <paginator display-num="5" show-jump="true" record-count="employeeList.totalCount"
-                   page-size="5" current-page="filter.pageNo"></paginator>
-    </div>
-    <!--搜索结果 end -->
+    <div ng-view></div>
 
     <!-- footer begin -->
     <div class="footer clearFix">

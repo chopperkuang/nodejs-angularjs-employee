@@ -3,13 +3,13 @@ var app = angular.module('app', ['ngResource', 'dui.directive']);
 app.config(function ($routeProvider, $locationProvider, $httpProvider, $resourceProvider) {
     $locationProvider.html5Mode(true);
     $routeProvider
-        .when('/', {
-            templateUrl: '/views/index.html',
+        .when('/list', {
+            templateUrl: '/views/list.html',
             controller: 'ListCtrl',
             title: '列表'
         }).
         otherwise({
-            redirectTo: '/'
+            redirectTo: '/list'
         });
 
     // Don't strip trailing slashes from calculated URLs

@@ -3,9 +3,6 @@
 app.controller('ListCtrl', function ($scope, $http, $rootScope, $routeParams, $location, Employee, UrlParse) {
         $scope.name = "人员管理";
 
-        search(); //初始化页面数据
-
-
         $scope.filter = {
             empState: '',
             keyword: '',
@@ -16,20 +13,20 @@ app.controller('ListCtrl', function ($scope, $http, $rootScope, $routeParams, $l
 
         //监听筛选参数的变更
         $scope.$watch('filter', function (newValue, oldValue) {
-            console.log("filter=>" + $scope.filter.pageNo);
             if (!oldValue) {
                 return false;
             }
 
+            console.log("filter=>" + $scope.filter.empState);
             if (newValue !== oldValue) {
                 $location.search(UrlParse.buildSearch(angular.copy($scope.filter)));
-                search();
             } else {
+                search();
             }
         }, true);
 
         $rootScope.$watch('employeePopup.finished', function (value) {
-            if(value == false) {
+            if(value === false) {
                 return;
             }
 
@@ -49,7 +46,7 @@ app.controller('ListCtrl', function ($scope, $http, $rootScope, $routeParams, $l
 
             Employee.get({id: empNo}, function(employee){
                 $rootScope.employeePopup.employee = employee;
-            })
+            });
         }
 
         //删除操作
