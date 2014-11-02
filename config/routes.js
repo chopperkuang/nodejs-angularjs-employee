@@ -1,12 +1,18 @@
 'use strict';
 
-var index = require('../app/server/controllers'),
-	employee = require('../app/server/controllers/employee');
+var index = require('../server/controllers'),
+	employee = require('../server/controllers/employee');
 
 module.exports = function (app) {
 
-	app.route('/employee/:id').get(employee.load);
+    //从上往下依次匹配
 
-	app.route('/*').get(index.index);
+    //employee
+    app.route('/employee').get(employee.search).put(employee.update).post(employee.create);
+    app.route('/employee/:id').get(employee.get).delete(employee.destroy);
+
+    //index
+    app.route('/*').get(index.index);
+
 
 };
