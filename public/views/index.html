@@ -5,7 +5,7 @@
     <title>列表页示例 - DUI标准规范 - 德佑地产</title>
     <link type="text/css" rel="stylesheet" href="http://public.dui.dooioo.com/public/css/main.css" />
     <link type="text/css" rel="stylesheet" href="http://public.dui.dooioo.com/public/css/header.css" />
-    <script type="text/javascript" src="http://public.dui.dooioo.com/public/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="http://public.dui.dooioo.com/public/js/lib/jquery-1.6.2.min.js"></script>
     <script type="text/javascript" src="http://public.dui.dooioo.com/public/js/fns.js"></script>
 
     <script type="text/javascript">
@@ -26,12 +26,148 @@
 
 <div class="container" ng-controller="ListCtrl">
     <h1 class="f18 mt_15">{{name}}</h1>
+
+    <!--搜索条件 begin -->
+    <div class="boxWrapBlue pd_10 mt_15 clearfix">
+        <table width="780" cellspacing="0" cellpadding="3" border="0" class="left">
+            <tr>
+                <td align="right" width="60">状态：</td>
+                <td width="100">
+                    <select ng-model="filter.empState" ng-options="es.key as es.value for es in constants.empStateList">
+                    </select>
+                </td>
+                <td width="60" align="right">入职日期：</td>
+                <td width="180">
+                    <input type="text" class="txtDate" value="" /> - <input type="text" class="txtDate" value="" />
+                </td>
+                <td align="right">关键字：</td>
+                <td>
+                    <input type="text" class="txtNew tt280" value="" placeholder="请输入工号或姓名"/>
+                </td>
+            </tr>
+        </table>
+        <div class="right center bdL_ccc" style="width:120px">
+            <a href="javascript:;" class="btn-small btn-blue in_block">搜索</a>
+        </div>
+    </div>
+    <!--搜索条件 end -->
+
+    <!--搜索结果 begin -->
+    <p class="clearfix mt_15">
+        <span class="left">共有 <b class="red">{{employeeList.totalCount}}</b> 条符合条件的结果</span>
+		<span class="right">
+			<a href="javascript:;" class="btn-small btn-green in_block ml_10" ng-click="create()">新增人员</a>
+		</span>
+    </p>
+
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tableListNew mt_5">
+        <tr class="trHead">
+            <td>工号</td>
+            <td>姓名</td>
+            <td>部门</td>
+            <td>岗位</td>
+            <td>入职日期</td>
+            <td>状态</td>
+            <td>操作</td>
+        </tr>
+        <tr ng-repeat="employee in employeeList.employeeList">
+            <td>{{employee.empNo}}</td>
+            <td><a href="detail.html">{{employee.userName}}</a></td>
+            <td>{{employee.orgName}}</td>
+            <td>{{employee.position}}</td>
+            <td>{{employee.joinAt | date:'yyyy-MM-dd' }}</td>
+            <td>{{employee.empState}}</td>
+            <td>
+                <a href="javascript:;" class="btn-small btn-silver in_block" ng-click="edit(employee.empNo)">编辑</a>
+                <a href="javascript:;" class="btn-small btn-red in_block" ng-click="delete(employee.empNo)">删除</a>
+            </td>
+        </tr>
+    </table>
+    <div class="pageNew txtRight mt_10">
+        <paginator display-num="5" show-jump="true" record-count="employeeList.totalCount"
+                   page-size="5" current-page="filter.pageNo"></paginator>
+    </div>
+    <!--搜索结果 end -->
+
+    <!-- footer begin -->
+    <div class="footer clearFix">
+        ©2014  德佑地产 版本号:2.1.6
+    </div>
+    <!-- footer end -->
+
+<script	type="text/ng-template" id="employeePopupTpl">
+    <div class="popLayer bubbleBox" id="employee_layer_form">
+        <div class="bubbleBoxTitle clearfix">
+            <h1>{{popupParams.action}}人员信息</h1>
+            <div class="cls"><a href="javascript:;" class="closePopBox xx" ng-click="popupParams.show = false"></a></div>
+        </div>
+        <div class="bubbleBoxCon pd_20">
+            <form id="formEdit">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="tableFormNew mt_5">
+                    <tr>
+                        <td class="tdTitle" width="150">姓名：</td>
+                        <td class="request" width="20">●</td>
+                        <td><input type="text" class="txtNew" value="" name="userName" rule="required" maxlength="20" ng-model="popupParams.employee.userName" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdTitle">部门：</td>
+                        <td class="request">●</td>
+                        <td>
+                            <select name="org" ng-model="popupParams.employee.orgName" ng-options="orgName as orgName for orgName in popupParams.constants.orgNameList" rule="required">
+                                <option value="">请选择</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdTitle">岗位：</td>
+                        <td class="request">●</td>
+                        <td>
+                            <select name="position" ng-model="popupParams.employee.position" ng-options="position as position for position in popupParams.constants.positionList" rule="required">
+                                <option value="">请选择</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdTitle">入职日期：</td>
+                        <td class="request">●</td>
+                        <td>
+                            <input type="text" class="txtDate" name="joinAt" ng-model="$parent.popupParams.employee.joinAt" date-picker readonly="readonly" rule="required" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdTitle">状态：</td>
+                        <td class="request">●</td>
+                        <td>
+                            <label>
+                                <input type="radio" value="正式" ng-model="popupParams.employee.empState" name="empState" rule="required" groupby="empState" />正式
+                            </label>
+                            <label class="ml_20">
+                                <input type="radio" value="试用" ng-model="popupParams.employee.empState" name="empState" rule="required" groupby="empState" />试用
+                            </label>
+                            <label class="ml_20">
+                                <input type="radio" value="离职" ng-model="popupParams.employee.empState" name="empState" rule="required" groupby="empState" />离职
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="bubbleBoxBtn">
+            <a href="javascript:;" class="btn-small btn-silver in_block" ng-click="popupParams.show = false">关闭</a>
+            <a href="javascript:;" class="btn-small btn-blue in_block" id="btn_submit" ng-click="submit()">提交</a>
+        </div>
+    </div>
+</script>
+
 </div>
+
+<employee-info popup-params="employeePopup"></employee-info>
 
 <script type="text/javascript" src="http://public.dui.dooioo.com/public/js/WdatePicker.js"></script>
 <script type="text/javascript" src="http://public.dui.dooioo.com/public/js/validation.js"></script>
 
-<script type="text/javascript" src="http://public.dui.dooioo.com/public/js/lib/angular.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.js"></script>
 <script type="text/javascript" src="http://public.dui.dooioo.com/public/js/angular/directive/directive.js"></script>
 <script type="text/javascript" src="http://public.dui.dooioo.com/public/js/paginate.js"></script>
@@ -40,6 +176,9 @@
 <script type="text/javascript" src="/app.js"></script>
 <script type="text/javascript" src="/controllers/listCtrl.js"></script>
 <script type="text/javascript" src="/services/employee.js"></script>
+<script type="text/javascript" src="/constants/constants.js"></script>
+<script type="text/javascript" src="/services/UrlParse.js"></script>
+<script type="text/javascript" src="/directive/employeeInfo.js"></script>
 
 
 </body>

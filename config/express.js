@@ -55,7 +55,7 @@ module.exports = function (app) {
     app.set('view engine', 'html');
     app.use(morgan('dev'));
     app.use(busboy());
-    app.use(bodyParser());
+    app.use(bodyParser.json());
     app.use(methodOverride());
     app.use(cookieParser());
 

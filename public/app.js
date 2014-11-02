@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngResource']);
+var app = angular.module('app', ['ngResource', 'dui.directive']);
 
 app.config(function ($routeProvider, $locationProvider, $httpProvider, $resourceProvider) {
     $locationProvider.html5Mode(true);
@@ -16,5 +16,15 @@ app.config(function ($routeProvider, $locationProvider, $httpProvider, $resource
 
 });
 
-app.run(function ($rootScope, $http) {
+app.run(function ($rootScope, $http, Constants) {
+    $rootScope.constants = Constants;
+
+    $rootScope.employeePopup = {
+        employee: {},
+        action: "新增",
+        message: "",
+        constants: Constants,
+        show: false,
+        finished: false
+    };
 });

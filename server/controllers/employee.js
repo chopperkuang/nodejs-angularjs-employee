@@ -12,20 +12,27 @@ var mongoose = require('mongoose'),
  * @param res
  */
 exports.search = function (req, res) {
-    console.log("search.");
-    // { $or:[ {'_id':objId}, {'name':param}, {'nickname':param} ]}
+
     var keyword = req.param('keyword') || "";
-    var criteria = { $or: [
-        {userName: new RegExp('.*' + keyword + '.*', "i")}
+    var empState = req.param('empState') || "";
+    var criteria = { $and: [
+        {userName: new RegExp('.*' + keyword + '.*', "i")},
+        {status: 1}
     ] }
-    //var criteria = {$or: [{userName: new RegExp('.*'+ keyword +'.*', "i")}, {empNo: new RegExp('.*'+ keyword +'.*', "i")}]};
-    var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
-    var perPage = 15;
+
+    if(empState !== "") {
+        criteria.$and.push({empState: empState});
+    }
+
+    var pageNo = (req.param('pageNo') > 0 ? req.param('pageNo') : 1) - 1;
+    var perPage = 5;
     var options = {
         perPage: perPage,
-        page: page,
+        page: pageNo,
         criteria: criteria
     };
+
+    console.log("search. => empState:"+ empState + "; keyword:" + keyword + "; pageNo:" + pageNo);
 
     Employee.list(options, function (err, employee) {
         if (err) {
@@ -34,7 +41,9 @@ exports.search = function (req, res) {
         }
         Employee.count(criteria).exec(function (err, count) {
             res.json({
-                employeeList: employee
+                employeeList: employee,
+                pageSize: Math.ceil(count / perPage),
+                totalCount: count
             })
         })
     });
@@ -57,34 +66,48 @@ exports.get = function (req, res) {
 
 exports.create = function (req, res) {
     var employee = new Employee(req.body);
+    console.log("create employee => "+ employee);
 
-    //todo 查找最大的empNo
-    employee.save(function (err, data) {
-        if (!err) {
-            res.json({
-                status: 'ok',
-                empNo: data.empNo
-            })
-        } else {
-            res.json({
-                status: 'fail'
-            })
-        }
-    })
+    Employee.getMaxEmpNo(function(err, data){
+        employee.empNo = parseInt(data.empNo) + 1;
+
+        employee.save(function (err, data) {
+            if (!err) {
+                res.json({
+                    status: 'ok',
+                    empNo: data.empNo
+                })
+            } else {
+                res.json({
+                    status: 'fail'
+                })
+            }
+        })
+    });
 };
 
 exports.update = function (req, res) {
-    res.json({
-        status: 'fail'
-    })
+    console.log("update => " + req.params.id);
+
+    Employee.findOneAndUpdate({empNo: req.params.id}, req.body, function(err, data){
+        if(!err) {
+            res.json({
+                status: "ok",
+                empNo: data.empNo
+            })
+        }
+    });
 };
 
 exports.destroy = function (req, res) {
-    Employee.findByIdAndUpdate(req.params.empNo, { $set: { status: -1 }}, {}, function (err) {
+    console.log("destroy => " + req.params.id);
+    Employee.findOneAndUpdate({empNo: req.params.id}, { $set: { status: -1 }}, {}, function (err) {
         if (!err) {
             res.json({
                 status: "ok"
             })
+        } else {
+            console.error(err);
         }
     })
 };

@@ -54,6 +54,10 @@ EmployeeSchema.statics = {
             .limit(options.perPage)
             .skip(options.perPage * options.page)
             .exec(cb);
+    },
+
+    getMaxEmpNo: function(cb) {
+        this.findOne({'status':1}).sort({'empNo': -1}).exec(cb);
     }
 };
 mongoose.model('Employee', EmployeeSchema, 'employee');
