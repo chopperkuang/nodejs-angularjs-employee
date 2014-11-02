@@ -23,9 +23,6 @@ module.exports = function (app) {
     console.log("env => " + env);
 
     if ('development' === env) {
-//    app.use(require('connect-livereload')());
-
-        // Disable caching of scripts for easier testing
         app.use(function noCache(req, res, next) {
             if (req.url.indexOf('/scripts/') === 0) {
                 res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -35,12 +32,14 @@ module.exports = function (app) {
             next();
         });
 
+//        app.use(require('connect-livereload')());
+        // Disable caching of scripts for easier testing
+
+        app.use(express.static(path.join(__dirname, '/../public')));
         //app.use(express.static(path.join(__dirname, '.tmp')));
-        //app.use(express.static(path.join(__dirname, 'app')));
         //app.use(express.static(path.join(__dirname, 'items')));
 
-        console.log(path.join(__dirname, '/../app/server/views'));
-        app.set('views', __dirname + '/../app/server/views');
+        app.set('views', __dirname + '/../public/views');
     }
 
     if ('production' === env) {
@@ -49,7 +48,7 @@ module.exports = function (app) {
         app.use(express.static(path.join(config.root, '.tmp')));
         app.use(express.static(path.join(config.root, 'app')));
         app.use(express.static(path.join(config.root, 'items')));
-        app.set('views', __dirname + '/../app/server/views');
+        app.set('views', __dirname + '/../server/views');
     }
 
     app.engine('html', require('ejs').renderFile);
