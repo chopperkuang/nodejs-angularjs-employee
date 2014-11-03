@@ -46,7 +46,7 @@
         </tr>
         <tr ng-repeat="employee in employeeList.employeeList">
             <td>{{employee.empNo}}</td>
-            <td><a href="detail.html">{{employee.userName}}</a></td>
+            <td><a href="/detail/{{employee.empNo}}">{{employee.userName}}</a></td>
             <td>{{employee.orgName}}</td>
             <td>{{employee.position}}</td>
             <td>{{employee.joinAt | date:'yyyy-MM-dd' }}</td>

@@ -3,8 +3,13 @@ var app = angular.module('app', ['ngResource', 'dui.directive']);
 app.config(function ($routeProvider, $locationProvider, $httpProvider, $resourceProvider) {
     $locationProvider.html5Mode(true);
     $routeProvider
+        .when('/detail/:id', {
+            templateUrl: '/views/partials/detail.html',
+            controller: 'DetailCtrl',
+            title: '人员详情'
+        })
         .when('/list', {
-            templateUrl: '/views/list.html',
+            templateUrl: '/views/partials/list.html',
             controller: 'ListCtrl',
             title: '列表'
         }).

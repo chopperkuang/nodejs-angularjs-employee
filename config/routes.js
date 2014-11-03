@@ -15,6 +15,9 @@ module.exports = function (app) {
                               .put(employee.update)
                               .delete(employee.destroy);
 
+    // All other routes to use Angular routing in app/scripts/app.js
+    app.route('/partials/*').get(index.partials);
+
     //index
     app.route('/*').get(index.index);
 
