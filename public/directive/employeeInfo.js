@@ -26,6 +26,7 @@ app.directive('employeeInfo', function($http, Employee){
                     return false;
                 };
 
+                //todo 可以通过是否有empNo来进行判断，先实现功能再说了
                 if(scope.popupParams.action === "新增") {
                     console.log(scope.popupParams.employee);
 

@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * 员工列表Controller
+ */
 app.controller('ListCtrl', function ($scope, $http, $rootScope, $routeParams, $location, Employee, UrlParse) {
         $scope.name = "人员管理";
 
@@ -41,12 +44,19 @@ app.controller('ListCtrl', function ($scope, $http, $rootScope, $routeParams, $l
             $scope.filter.keyword = $scope.keyword;
         };
 
+        /**
+         * 创建员工
+         */
         $scope.create = function() {
             $rootScope.employeePopup.action = "新增";
             $rootScope.employeePopup.show = true;
             $rootScope.employeePopup.employee = {};
         };
 
+        /**
+         * 编辑员工
+         * @param empNo
+         */
         $scope.edit = function(empNo) {
             $rootScope.employeePopup.action = "编辑";
             $rootScope.employeePopup.show = true;
@@ -56,7 +66,10 @@ app.controller('ListCtrl', function ($scope, $http, $rootScope, $routeParams, $l
             });
         }
 
-        //删除操作
+        /**
+         * 删除员工（软删除）
+         * @param empNo
+         */
         $scope.delete = function(empNo) {
             //var employee = Employee.get()
             if(!window.confirm("确定要删除此人员吗？")) {
