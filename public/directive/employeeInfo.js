@@ -21,6 +21,11 @@ app.directive('employeeInfo', function($http, Employee){
             });
 
             scope.submit = function() {
+                var validator = $('#formEdit').validate();
+                if(!validator.validateForm()){
+                    return false;
+                };
+
                 if(scope.popupParams.action === "新增") {
                     console.log(scope.popupParams.employee);
 
