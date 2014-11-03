@@ -12,16 +12,16 @@
                 </td>
                 <td width="60" align="right">入职日期：</td>
                 <td width="180">
-                    <input type="text" class="txtDate" value="" /> - <input type="text" class="txtDate" value="" />
+                    <input type="text" class="txtDate" value=""  date-picker readonly="readonly" ng-model="$parent.filter.joinAtStart"/> - <input type="text" class="txtDate" value=""  date-picker readonly="readonly" ng-model="$parent.filter.joinAtEnd"/>
                 </td>
                 <td align="right">关键字：</td>
                 <td>
-                    <input type="text" class="txtNew tt280" value="" placeholder="请输入工号或姓名"/>
+                    <input type="text" class="txtNew tt280" value="" ng-model="keyword" placeholder="请输入工号或姓名"/>
                 </td>
             </tr>
         </table>
         <div class="right center bdL_ccc" style="width:120px">
-            <a href="javascript:;" class="btn-small btn-blue in_block">搜索</a>
+            <a href="javascript:;" class="btn-small btn-blue in_block" ng-click="search()">搜索</a>
         </div>
     </div>
     <!--搜索条件 end -->

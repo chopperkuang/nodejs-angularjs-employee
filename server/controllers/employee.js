@@ -15,6 +15,9 @@ exports.search = function (req, res) {
 
     var keyword = req.param('keyword') || "";
     var empState = req.param('empState') || "";
+    var joinAtStart = req.param('joinAtStart') || "";
+    var joinAtEnd = req.param('joinAtEnd') || "";
+
     var criteria = { $and: [
         {userName: new RegExp('.*' + keyword + '.*', "i")},
         {status: 1}
@@ -22,6 +25,14 @@ exports.search = function (req, res) {
 
     if(empState !== "") {
         criteria.$and.push({empState: empState});
+    }
+
+    if(joinAtStart !== "") {
+        criteria.$and.push({joinAt :{$gte : joinAtStart}});
+    }
+
+    if(joinAtEnd !== "") {
+        criteria.$and.push({joinAt :{$lte : joinAtEnd}});
     }
 
     var pageNo = (req.param('pageNo') > 0 ? req.param('pageNo') : 1) - 1;

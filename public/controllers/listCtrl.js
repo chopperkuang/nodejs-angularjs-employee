@@ -6,10 +6,13 @@ app.controller('ListCtrl', function ($scope, $http, $rootScope, $routeParams, $l
         $scope.filter = {
             empState: '',
             keyword: '',
-            pageNo: 1
+            pageNo: 1,
+            joinAtStart: '',
+            joinAtEnd: ''
         };
 
         $scope.filter = $.extend({}, angular.copy($scope.filter), $location.search());
+        $scope.keyword = angular.copy($scope.filter.keyword);
 
         //监听筛选参数的变更
         $scope.$watch('filter', function (newValue, oldValue) {
@@ -17,7 +20,7 @@ app.controller('ListCtrl', function ($scope, $http, $rootScope, $routeParams, $l
                 return false;
             }
 
-            console.log("filter=>" + $scope.filter.empState);
+            console.log("filter=>" + $scope.filter.joinAtStart);
             if (newValue !== oldValue) {
                 $location.search(UrlParse.buildSearch(angular.copy($scope.filter)));
             } else {
@@ -33,6 +36,10 @@ app.controller('ListCtrl', function ($scope, $http, $rootScope, $routeParams, $l
             console.log("$watch employeePopup.finished");
             search();
         }, false);
+
+        $scope.search = function(){
+            $scope.filter.keyword = $scope.keyword;
+        };
 
         $scope.create = function() {
             $rootScope.employeePopup.action = "新增";
