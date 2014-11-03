@@ -32,23 +32,14 @@ module.exports = function (app) {
             next();
         });
 
-//        app.use(require('connect-livereload')());
-        // Disable caching of scripts for easier testing
-
         app.use(express.static(path.join(__dirname, '/../public')));
-        //app.use(express.static(path.join(__dirname, '.tmp')));
-        //app.use(express.static(path.join(__dirname, 'items')));
 
         app.set('views', __dirname + '/../public/views');
     }
 
     if ('production' === env) {
-        app.use(compression());
-        app.use(favicon(path.join(config.root, 'app', 'favicon.ico')));
-        app.use(express.static(path.join(config.root, '.tmp')));
-        app.use(express.static(path.join(config.root, 'app')));
-        app.use(express.static(path.join(config.root, 'items')));
-        app.set('views', __dirname + '/../server/views');
+        app.use(express.static(path.join(__dirname, '/../public')));
+        app.set('views', __dirname + '/../public/views');
     }
 
     app.engine('html', require('ejs').renderFile);
