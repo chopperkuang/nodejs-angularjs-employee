@@ -34,6 +34,8 @@ module.exports = function (app) {
 
         app.use(express.static(path.join(__dirname, '/../public')));
 
+        console.log(path.join(__dirname, '/../dist'));
+
         app.set('views', __dirname + '/../public/views');
     }
 

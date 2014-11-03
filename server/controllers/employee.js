@@ -80,7 +80,8 @@ exports.create = function (req, res) {
     console.log("create employee => "+ employee);
 
     Employee.getMaxEmpNo(function(err, data){
-        employee.empNo = parseInt(data.empNo) + 1;
+        var _empNo = data.empNo || 81000;
+        employee.empNo = parseInt(_empNo) + 1;
 
         employee.save(function (err, data) {
             if (!err) {
