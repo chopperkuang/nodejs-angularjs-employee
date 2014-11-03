@@ -32,7 +32,7 @@ app.controller('ListCtrl', function ($scope, $http, $rootScope, $routeParams, $l
         }, true);
 
         $rootScope.$watch('employeePopup.finished', function (value) {
-            if(value === false) {
+            if (value === false) {
                 return;
             }
 
@@ -40,14 +40,14 @@ app.controller('ListCtrl', function ($scope, $http, $rootScope, $routeParams, $l
             search();
         }, false);
 
-        $scope.search = function(){
+        $scope.search = function () {
             $scope.filter.keyword = $scope.keyword;
         };
 
         /**
          * 创建员工
          */
-        $scope.create = function() {
+        $scope.create = function () {
             $rootScope.employeePopup.action = "新增";
             $rootScope.employeePopup.show = true;
             $rootScope.employeePopup.employee = {};
@@ -57,11 +57,11 @@ app.controller('ListCtrl', function ($scope, $http, $rootScope, $routeParams, $l
          * 编辑员工
          * @param empNo
          */
-        $scope.edit = function(empNo) {
+        $scope.edit = function (empNo) {
             $rootScope.employeePopup.action = "编辑";
             $rootScope.employeePopup.show = true;
 
-            Employee.get({id: empNo}, function(employee){
+            Employee.get({id: empNo}, function (employee) {
                 $rootScope.employeePopup.employee = employee;
             });
         }
@@ -70,13 +70,13 @@ app.controller('ListCtrl', function ($scope, $http, $rootScope, $routeParams, $l
          * 删除员工（软删除）
          * @param empNo
          */
-        $scope.delete = function(empNo) {
+        $scope.delete = function (empNo) {
             //var employee = Employee.get()
-            if(!window.confirm("确定要删除此人员吗？")) {
+            if (!window.confirm("确定要删除此人员吗？")) {
                 return;
             }
 
-            Employee.delete({id: empNo}, function(data){
+            Employee.delete({id: empNo}, function (data) {
                 console.log(data);
             });
         }
